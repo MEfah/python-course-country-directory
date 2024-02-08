@@ -13,6 +13,7 @@ ENV ENV=${ENV} \
 RUN apt-get update && apt-get install -y \
     build-essential \
     cron \
+    dos2unix \
     # Cleaning cache:
     && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
     && apt-get clean -y && rm -rf /var/lib/apt/lists/*
