@@ -88,6 +88,7 @@ class CountryDTO(BaseModel):
                 )
             },
             name="\u00c5land Islands",
+            area=1580.0,
             population=28875,
             subregion="Northern Europe",
             timezones=[
@@ -103,6 +104,7 @@ class CountryDTO(BaseModel):
     flag: str
     languages: set[LanguagesInfoDTO]
     name: str
+    area: float | None = None
     population: int
     subregion: str
     timezones: list[str]
@@ -179,6 +181,7 @@ class LocationInfoDTO(BaseModel):
                     )
                 },
                 name="\u00c5land Islands",
+                area=1580.0,
                 population=28875,
                 subregion="Northern Europe",
                 timezones=[

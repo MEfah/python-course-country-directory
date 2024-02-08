@@ -32,6 +32,7 @@ class Renderer:
             f"Страна: {self.location_info.location.name}",
             f"Столица: {self.location_info.location.capital}",
             f"Регион: {self.location_info.location.subregion}",
+            f"Площадь: {self.location_info.location.area if self.location_info.location.area != None else '-'}",
             f"Языки: {await self._format_languages()}",
             f"Население страны: {await self._format_population()} чел.",
             f"Курсы валют: {await self._format_currency_rates()}",

@@ -100,6 +100,7 @@ class CountryCollector(BaseCollector):
                         flag=item["flag"],
                         languages=item["languages"],
                         name=item["name"],
+                        area=item["area"],
                         population=item["population"],
                         subregion=item["subregion"],
                         timezones=item["timezones"],
