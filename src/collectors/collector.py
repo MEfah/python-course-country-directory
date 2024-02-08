@@ -101,6 +101,8 @@ class CountryCollector(BaseCollector):
                         languages=item["languages"],
                         name=item["name"],
                         area=item["area"],
+                        latitude=item["latitude"],
+                        longitude=item["longitude"],
                         population=item["population"],
                         subregion=item["subregion"],
                         timezones=item["timezones"],

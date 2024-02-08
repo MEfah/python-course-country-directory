@@ -30,7 +30,7 @@ class Renderer:
 
         return (
             f"Страна: {self.location_info.location.name}",
-            f"Столица: {self.location_info.location.capital}",
+            f"Столица: {self.location_info.location.capital} ({self.location_info.location.latitude}, {self.location_info.location.longitude})",
             f"Регион: {self.location_info.location.subregion}",
             f"Площадь: {self.location_info.location.area if self.location_info.location.area != None else '-'}",
             f"Языки: {await self._format_languages()}",
