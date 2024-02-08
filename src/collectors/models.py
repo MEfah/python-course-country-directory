@@ -152,6 +152,7 @@ class WeatherInfoDTO(BaseModel):
     temp: float
     pressure: int
     humidity: int
+    visibility: int
     wind_speed: float
     description: str
 

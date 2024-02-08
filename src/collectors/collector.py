@@ -220,6 +220,7 @@ class WeatherCollector(BaseCollector):
                 temp=result["main"]["temp"],
                 pressure=result["main"]["pressure"],
                 humidity=result["main"]["humidity"],
+                visibility=result["visibility"],
                 wind_speed=result["wind"]["speed"],
                 description=result["weather"][0]["description"],
             )
