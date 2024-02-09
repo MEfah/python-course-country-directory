@@ -110,6 +110,7 @@ class CountryDTO(BaseModel):
     latitude: float
     longitude: float
     population: int
+    region: str
     subregion: str
     timezones: list[str]
 
