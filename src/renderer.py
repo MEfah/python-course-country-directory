@@ -32,6 +32,7 @@ class Renderer:
         :return: Результат форматирования
         """
 
+        news_titles = tuple(f"\t{news.title}" for news in self.location_info.news)
         return (
             f"Страна: {self.location_info.location.name}",
             f"Столица: {self.location_info.location.capital} ({self.location_info.location.latitude}, {self.location_info.location.longitude})",
@@ -46,7 +47,8 @@ class Renderer:
             f"\tСкорость ветра: {self.location_info.weather.wind_speed} м/с",
             f"\tВидимость: {self.location_info.weather.visibility} м",
             f"\tОписание: {self.location_info.weather.description}",
-        )
+            f"Новости:",
+        ) + news_titles
         
         
     async def _format_time(self) -> str:

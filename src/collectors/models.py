@@ -158,6 +158,24 @@ class WeatherInfoDTO(BaseModel):
     description: str
 
 
+class NewsDTO(BaseModel):
+    """
+    Модель данных о новостях.
+
+    .. code-block::
+
+        NewsDTO(
+            author="Hi-Tech Mail.ru",
+            title="Ученые создали умные сережки: следят за температурой, сном и стрессом - Hi-Tech Mail.ru",
+            publishedAt="2024-02-08T13:50:19Z"
+        )
+    """
+
+    author: str
+    title: str
+    publishedAt: str
+
+
 class LocationInfoDTO(BaseModel):
     """
     Модель данных для представления общей информации о месте.
@@ -206,9 +224,17 @@ class LocationInfoDTO(BaseModel):
             currency_rates={
                 "EUR": 0.016503,
             },
+            news=[
+                NewsDTO(
+                    author="Hi-Tech Mail.ru",
+                    title="Ученые создали умные сережки: следят за температурой, сном и стрессом - Hi-Tech Mail.ru",
+                    publishedAt="2024-02-08T13:50:19Z"
+                )
+            ]
         )
     """
 
     location: CountryDTO
     weather: WeatherInfoDTO
     currency_rates: dict[str, float]
+    news: list[NewsDTO]
