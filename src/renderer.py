@@ -2,13 +2,11 @@
 Функции для формирования выходной информации.
 """
 
+from datetime import datetime, timedelta, timezone
 from decimal import ROUND_HALF_UP, Decimal
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 from collectors.models import LocationInfoDTO
-
-from datetime import datetime, timedelta, timezone
-import time
-from zoneinfo import ZoneInfo
 
 
 class Renderer:
@@ -34,54 +32,62 @@ class Renderer:
 
         news_titles = tuple(f"\t{news.title}" for news in self.location_info.news)
         return (
-            f"Страна: {self.location_info.location.name}",
-            f"Столица: {self.location_info.location.capital} ({self.location_info.location.latitude}, {self.location_info.location.longitude})",
-            f"Время: {await self._format_time()}",
-            f"Регион: {self.location_info.location.subregion}",
-            f"Площадь: {str(self.location_info.location.area) + ' км2' if self.location_info.location.area != None else '-'}",
-            f"Языки: {await self._format_languages()}",
-            f"Население страны: {await self._format_population()} чел.",
-            f"Курсы валют: {await self._format_currency_rates()}",
-            f"Погода:",
-            f"\tТемпература: {self.location_info.weather.temp} °C",
-            f"\tСкорость ветра: {self.location_info.weather.wind_speed} м/с",
-            f"\tВидимость: {self.location_info.weather.visibility} м",
-            f"\tОписание: {self.location_info.weather.description}",
-            f"Новости:",
-        ) + news_titles
-        
-        
+            (
+                f"Страна: {self.location_info.location.name}",
+                f"Столица: {self.location_info.location.capital} \
+                ({self.location_info.location.latitude}, {self.location_info.location.longitude})",
+                f"Время: {await self._format_time()}",
+                f"Регион: {self.location_info.location.subregion}",
+                f"Площадь: {str(self.location_info.location.area) + ' км2' if self.location_info.location.area is not None else '-'}",
+                f"Языки: {await self._format_languages()}",
+                f"Население страны: {await self._format_population()} чел.",
+                f"Курсы валют: {await self._format_currency_rates()}",
+                "Погода:",
+                f"\tТемпература: {self.location_info.weather.temp} °C",
+                f"\tСкорость ветра: {self.location_info.weather.wind_speed} м/с",
+                f"\tВидимость: {self.location_info.weather.visibility} м",
+                f"\tОписание: {self.location_info.weather.description}",
+                "Новости:",
+            )
+            + news_titles
+        )
+
     async def _format_time(self) -> str:
         """
         Форматирование времени и часового пояса
-        
+
         :return:
         """
-        
-        zone_location_string = self.location_info.location.region + "/" + self.location_info.location.capital
-        zone_utc_string = ''
+
+        zone_location_string = (
+            self.location_info.location.region
+            + "/"
+            + self.location_info.location.capital
+        )
+        zone_utc_string = ""
         zone_info = None
-                
+
         try:
             zone_info = ZoneInfo(zone_location_string)
-            zone_time = datetime.now(tz = zone_info)
+            zone_time = datetime.now(tz=zone_info)
             zone_offset = zone_info.utcoffset(datetime.now())
-            
+
             seconds = zone_offset.days * 86400 + zone_offset.seconds
             hours = seconds // 3600
             minutes = seconds // 60 - hours * 60
-            
+
             zone_utc_string = f'UTC{"-" if hours < 0 else "+"}{"%02d" % abs(hours)}:{"%02d" % abs(minutes)}'
 
-        except:
+        except ZoneInfoNotFoundError:
             zone_utc_string = self.location_info.location.timezones[0]
             hours = int(zone_utc_string[3:6])
             minutes = int(zone_utc_string[7:9])
-            zone_info = timezone(timedelta(hours=hours, minutes=minutes if hours > 0 else -minutes))
-            zone_time = datetime.now(tz = zone_info)
+            zone_info = timezone(
+                timedelta(hours=hours, minutes=minutes if hours > 0 else -minutes)
+            )
+            zone_time = datetime.now(tz=zone_info)
 
         return f'{zone_time.strftime("%d.%m.%Y %H:%M")} ({zone_utc_string})'
-
 
     async def _format_languages(self) -> str:
         """

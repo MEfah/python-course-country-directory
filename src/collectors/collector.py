@@ -22,14 +22,14 @@ from collectors.models import (
     CurrencyRatesDTO,
     CurrencyInfoDTO,
     WeatherInfoDTO,
-    NewsDTO
+    NewsDTO,
 )
 from settings import (
     MEDIA_PATH,
     CACHE_TTL_COUNTRY,
     CACHE_TTL_CURRENCY_RATES,
     CACHE_TTL_WEATHER,
-    CACHE_TTL_NEWS
+    CACHE_TTL_NEWS,
 )
 
 
@@ -261,9 +261,7 @@ class NewsCollector(BaseCollector):
             filename = f"{location.capital}_{location.alpha2code}".lower()
             if await self.cache_invalid(filename=filename):
                 # если кэш уже невалиден, то актуализируем его
-                result = await self.client.get_news(
-                    f"{location.alpha2code}"
-                )
+                result = await self.client.get_news(f"{location.alpha2code}")
                 if result:
                     result_str = json.dumps(result)
                     async with aiofiles.open(
@@ -272,7 +270,7 @@ class NewsCollector(BaseCollector):
                         await file.write(result_str)
 
     @classmethod
-    async def read(cls, location: LocationDTO) -> list[WeatherInfoDTO]:
+    async def read(cls, location: LocationDTO) -> list[NewsDTO]:
         """
         Чтение данных из кэша.
 
@@ -286,13 +284,16 @@ class NewsCollector(BaseCollector):
 
         result = json.loads(content)
         if result:
-            return [NewsDTO(
-                author=article["author"],
-                title=article["title"],
-                publishedAt=article["publishedAt"],
-            ) for article in result["articles"]]
+            return [
+                NewsDTO(
+                    author=article["author"],
+                    title=article["title"],
+                    publishedAt=article["publishedAt"],
+                )
+                for article in result["articles"]
+            ]
 
-        return None
+        return []
 
 
 class Collectors:

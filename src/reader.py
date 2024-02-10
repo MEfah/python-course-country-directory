@@ -8,16 +8,16 @@ from typing import Optional
 from collectors.collector import (
     CountryCollector,
     CurrencyRatesCollector,
+    NewsCollector,
     WeatherCollector,
-    NewsCollector
 )
 from collectors.models import (
     CountryDTO,
     CurrencyInfoDTO,
     LocationDTO,
     LocationInfoDTO,
-    WeatherInfoDTO,
     NewsDTO,
+    WeatherInfoDTO,
 )
 
 
@@ -48,7 +48,7 @@ class Reader:
                 location=country,
                 weather=weather,
                 currency_rates=currency_rates,
-                news=news
+                news=news,
             )
 
         return None
@@ -80,7 +80,7 @@ class Reader:
         :return:
         """
         return await WeatherCollector.read(location=location)
-    
+
     @staticmethod
     async def get_news(location: LocationDTO) -> list[NewsDTO]:
         """
