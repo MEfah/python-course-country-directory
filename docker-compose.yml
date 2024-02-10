@@ -24,4 +24,4 @@ services:
             - ./media:/media
             - ./logs:/logs
             - ./cron:/cron
-        entrypoint: sh /cron/crontab.sh
+        entrypoint: bash -c "dos2unix /cron/crontab.sh && sh /cron/crontab.sh"

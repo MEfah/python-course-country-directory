@@ -88,6 +88,9 @@ class CountryDTO(BaseModel):
                 )
             },
             name="\u00c5land Islands",
+            area=1580.0,
+            latitude=60.116667,
+            longitude=19.9,
             population=28875,
             subregion="Northern Europe",
             timezones=[
@@ -103,7 +106,11 @@ class CountryDTO(BaseModel):
     flag: str
     languages: set[LanguagesInfoDTO]
     name: str
+    area: float | None = None
+    latitude: float
+    longitude: float
     population: int
+    region: str
     subregion: str
     timezones: list[str]
 
@@ -146,8 +153,27 @@ class WeatherInfoDTO(BaseModel):
     temp: float
     pressure: int
     humidity: int
+    visibility: int
     wind_speed: float
     description: str
+
+
+class NewsDTO(BaseModel):
+    """
+    Модель данных о новостях.
+
+    .. code-block::
+
+        NewsDTO(
+            author="Hi-Tech Mail.ru",
+            title="Ученые создали умные сережки: следят за температурой, сном и стрессом - Hi-Tech Mail.ru",
+            publishedAt="2024-02-08T13:50:19Z"
+        )
+    """
+
+    author: str
+    title: str
+    publishedAt: str
 
 
 class LocationInfoDTO(BaseModel):
@@ -179,6 +205,9 @@ class LocationInfoDTO(BaseModel):
                     )
                 },
                 name="\u00c5land Islands",
+                area=1580.0,
+                latitude=60.116667,
+                longitude=19.9,
                 population=28875,
                 subregion="Northern Europe",
                 timezones=[
@@ -195,9 +224,17 @@ class LocationInfoDTO(BaseModel):
             currency_rates={
                 "EUR": 0.016503,
             },
+            news=[
+                NewsDTO(
+                    author="Hi-Tech Mail.ru",
+                    title="Ученые создали умные сережки: следят за температурой, сном и стрессом - Hi-Tech Mail.ru",
+                    publishedAt="2024-02-08T13:50:19Z"
+                )
+            ]
         )
     """
 
     location: CountryDTO
     weather: WeatherInfoDTO
     currency_rates: dict[str, float]
+    news: list[NewsDTO]

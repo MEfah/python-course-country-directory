@@ -60,11 +60,13 @@
 
     * APILayer — Geography API (https://apilayer.com/marketplace/geo-api)
     * OpenWeather – Weather Free Plan (https://openweathermap.org/price#weather)
+    * NewsAPI - New API (https://newsapi.org)
 
     Задайте полученные токены доступа в качестве значений переменных окружения (в файле `.env`):
 
     * `API_KEY_APILAYER` – для токена доступа к APILayer
     * `API_KEY_OPENWEATHER` – для токена доступа к OpenWeather
+    * `API_KEY_NEWS` - for NewsAPI access token
 
 2. Соберите Docker-контейнер с помощью Docker Compose:
     .. code-block:: console
@@ -92,6 +94,7 @@
     * `CACHE_TTL_COUNTRY` (время актуальности данных о странах)
     * `CACHE_TTL_CURRENCY_RATES` (время актуальности данных о курсах валют)
     * `CACHE_TTL_WEATHER` (время актуальности данных о погоде)
+    * `CACHE_TTL_NEWS` (news data up-to-date time in seconds)
 
     Значение для этих переменных указывается в секундах (они определяются в файле `.env`).
 
